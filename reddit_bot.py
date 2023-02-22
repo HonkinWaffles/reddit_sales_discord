@@ -2,10 +2,11 @@
 
 import os
 import discord
-from discord.ext import commands
+import asyncpraw
 import praw
-from dotenv import load_dotenv
 import asyncio
+from dotenv import load_dotenv
+from discord.ext import commands
 
 # Load the .env file
 load_dotenv()
@@ -24,32 +25,28 @@ reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,		 # your client id
                             password=REDDIT_PASSWORD,   # your reddit password
                             check_for_async=False)
 
-
-subreddit = reddit_read_only.subreddit("gaming")
-
+subreddit = reddit_read_only.subreddit("bapcsalescanada")
 
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 client = discord.Client(intents=intents)
 
-
 async def monitor_posts():
-    reddit = await asyncpraw.Reddit(
+    channel = client.get_channel(1077852017369813013)
+    reddit = asyncpraw.Reddit(
         client_id=REDDIT_CLIENT_ID,
         client_secret=REDDIT_SECRET,
         username=REDDIT_USERNAME,
         password=REDDIT_PASSWORD,
         user_agent=REDDIT_USER_AGENT,
     )
-    subreddit = await reddit.subreddit("gaming")
-    channel = bot.get_channel(1077852017369813013)
+    subreddit = await reddit.subreddit("bapcsalescanada")
     async for submission in subreddit.stream.submissions(skip_existing=True):
-        await channel.send(submission.title)
-        await channel.send(submission.url)
         print(submission.title)
         print(submission.url)
-
+        await channel.send(submission.title)
+        await channel.send(submission.url)
 
 @client.event
 async def on_ready():
@@ -57,4 +54,4 @@ async def on_ready():
     print('Logged in as {0.user}'.format(client))
     await monitor_posts()
 
-bot.run(DISCORD_TOKEN)
+client.run(DISCORD_TOKEN)
