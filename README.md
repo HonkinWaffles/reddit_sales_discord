@@ -2,8 +2,6 @@
 
 This is a bot that monitors the /r/bapcsalescanada subreddit for new posts and pushes them to Discord. The bot is implemented in Python and uses the `asyncpraw` and `discord.py` libraries to interact with the Reddit and Discord APIs.
 
-
-
 ## Prerequisites
 
 ```
@@ -16,7 +14,7 @@ A Discord account
 1. Clone this repository:
 
 ```
-git clone https://github.com/<your-github-username>/reddit-discord-bot.git
+git clone https://github.com/HonkinWaffles/reddit-discord-bot.git
 cd reddit-discord-bot
 ```
 
@@ -36,6 +34,8 @@ REDDIT_USER_AGENT=<your-reddit-user-agent>
 REDDIT_USERNAME=<your-reddit-username>
 REDDIT_PASSWORD=<your-reddit-password>
 ```
+
+1. Edit the `exclusions.txt` file to exclude any posts you don't want pushed to Discord
 
 Replace the placeholders with your actual Discord bot token, Reddit client ID, client secret, user agent, username, and password. The REDDIT_USER_AGENT field should contain a unique name that describes your bot.
 

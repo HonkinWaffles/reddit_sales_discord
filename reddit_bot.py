@@ -16,8 +16,13 @@ REDDIT_USER_AGENT=os.getenv('REDDIT_USER_AGENT')
 REDDIT_USERNAME=os.getenv('REDDIT_USERNAME')
 REDDIT_PASSWORD=os.getenv('REDDIT_PASSWORD')
 
-# List of words to exclude from the posts
-exclusions = ['Case' , 'Controllers' , 'Keyboard' , 'Laptop' , 'Chargers' , 'Audio' , 'Headphones' , 'Headsets' , 'Earphones' , 'TV', 'buildapcsalescanada']
+# Load exclusions from file
+exclusions = set()
+with open('exclusions.txt', 'r') as f:
+    for line in f:
+        line = line.strip()
+        if line:
+            exclusions.add(line)
 
 ## Reddit API keys
 reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,  # your client id
