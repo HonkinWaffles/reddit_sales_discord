@@ -20,8 +20,7 @@ REDDIT_PASSWORD=os.getenv('REDDIT_PASSWORD')
 
 
 # List of words to exclude from the reddit scape
-exclusions = ['Case' , 'Controllers' , 'TVMonitor' , 'Keyboard' , 'Laptop' , 'Chargers' , 'Audio' , 'Headphones' , 'Headsets' , 'Earphones' , 'TV']
-
+exclusions = ['Case' , 'Controllers' , 'Keyboard' , 'Laptop' , 'Chargers' , 'Audio' , 'Headphones' , 'Headsets' , 'Earphones' , 'TV', 'buildapcsalescanada']
 
 ## Reddit API connection and scraping
 reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,		 # your client id
@@ -31,7 +30,6 @@ reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,		 # your client id
                             password=REDDIT_PASSWORD,   # your reddit password
                             check_for_async=False)
 
-
 ## Dicord API connection and information
 intents = discord.Intents.default()
 intents.message_content = True
@@ -40,7 +38,10 @@ client = discord.Client(intents=intents)
 
 ## Scaping Reddit and sending the information to Discord
 async def monitor_posts():
-    channel = client.get_channel(DISCORD_CHANNEL_ID)
+    channel = client.get_channel(int(DISCORD_CHANNEL_ID))
+    if not channel:
+        print("Error: Could not find channel")
+        return
     reddit = asyncpraw.Reddit(
         client_id=REDDIT_CLIENT_ID,
         client_secret=REDDIT_SECRET,
@@ -54,7 +55,6 @@ async def monitor_posts():
         print(submission.title)
         print(submission.url)
         if any(exclusion.lower() in submission.title.lower() for exclusion in exclusions):
-            # Skip the submission if it includes any of the exclusions
             continue
         latest_post = submission
         await channel.send(submission.title)
@@ -65,15 +65,15 @@ async def on_ready():
     print('Logged in as {0.user}'.format(client))
     await monitor_posts()
 
-# Discord bot commands scraoe most recent post
+# Discord bot commands scrape most recent post
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
-    if message.content.startswith('!latest_post'):
+    if message.content.startswith('!recent_sales'):
         subreddit = reddit_read_only.subreddit("bapcsalescanada")
         latest_post = None
-        for posts in subreddit.new(limit=1):
+        for posts in subreddit.new(limit=5):
             if any(exclusion.lower() in posts.title.lower() for exclusion in exclusions):
                 # Skip the submission if it includes any of the exclusions
                 continue
