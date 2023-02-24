@@ -26,7 +26,7 @@ cd reddit-discord-bot
 pip install -r requirements.txt
 ```
 
-1. Create a .env file in the project directory with the following contents:
+1. Create a `.env` file in the project directory with the following contents:
 
 ```
 DISCORD_TOKEN=<your-discord-bot-token>
