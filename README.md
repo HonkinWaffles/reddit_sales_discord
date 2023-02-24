@@ -1,4 +1,4 @@
-# BAPCSalesCanada Discord Bot
+# /r/BAPCSalesCanada Discord Bot
 
 This is a bot that monitors the /r/bapcsalescanada subreddit for new posts and pushes them to Discord. The bot is implemented in Python and uses the `asyncpraw` and `discord.py` libraries to interact with the Reddit and Discord APIs.
 
