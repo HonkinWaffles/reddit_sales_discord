@@ -76,12 +76,26 @@ async def on_message(message):
         for posts in subreddit.new(limit=5):
             if any(exclusion.lower() in posts.title.lower() for exclusion in exclusions):
                 # Skip the submission if it includes any of the exclusions
+                await message.channel.send("Exclusion found")
+                await message.delete()
                 continue
             latest_post = posts
             break
         if latest_post:
             await message.channel.send(posts.title)
             await message.channel.send(posts.url)
+        await message.delete()
+    elif message.content.startswith('!top_5'):
+        subreddit = reddit_read_only.subreddit("bapcsalescanada")
+        top_posts = subreddit.hot(limit=5)
+        for post in top_posts:
+            if any(exclusion.lower() in post.title.lower() for exclusion in exclusions):
+                await message.channel.send("Exclusion found")
+                await message.delete()
+                # Skip the submission if it includes any of the exclusions
+                continue
+            await message.channel.send(post.title)
+            await message.channel.send(post.url)
         await message.delete()
 
 
