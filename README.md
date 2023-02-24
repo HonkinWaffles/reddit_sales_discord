@@ -35,11 +35,10 @@ REDDIT_USERNAME=<your-reddit-username>
 REDDIT_PASSWORD=<your-reddit-password>
 ```
 
-4. Edit the `exclusions.txt` file to exclude any posts you don't want pushed to Discord
-
 Replace the placeholders with your actual Discord bot token, Reddit client ID, client secret, user agent, username, and password. The REDDIT_USER_AGENT field should contain a unique name that describes your bot.
 
-Edit the exclusions list in the reddit_bot.py file to exclude any terms you don't want to see in the posts.
+4. Edit the `exclusions.txt` file to exclude any posts you don't want pushed to Discord. The bot will skip any posts that contain any of the terms in this file.
+
 
 ## Usage
 
