@@ -70,8 +70,9 @@ async def on_message(message):
     if message.content.startswith('!recent_sales'):
         subreddit = reddit_read_only.subreddit("bapcsalescanada")
         latest_post = None
-        for posts in subreddit.new(limit=5):
+        for posts in subreddit.new(limit=1):
             if any(exclusion.lower() in posts.title.lower() for exclusion in exclusions):
+                await message.channel.send("Exclusion found")
                 await message.delete()
                 continue
             latest_post = posts
