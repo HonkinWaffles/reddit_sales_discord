@@ -1,5 +1,3 @@
-# This example requires the 'message_content' intent.
-
 import os
 import discord
 import asyncpraw
@@ -18,11 +16,10 @@ REDDIT_USER_AGENT=os.getenv('REDDIT_USER_AGENT')
 REDDIT_USERNAME=os.getenv('REDDIT_USERNAME')
 REDDIT_PASSWORD=os.getenv('REDDIT_PASSWORD')
 
-
-# List of words to exclude from the reddit scape
+# List of words to exclude from the posts
 exclusions = ['Case' , 'Controllers' , 'Keyboard' , 'Laptop' , 'Chargers' , 'Audio' , 'Headphones' , 'Headsets' , 'Earphones' , 'TV', 'buildapcsalescanada']
 
-## Reddit API connection and scraping
+## Reddit API keys
 reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,  # your client id
                             client_secret=REDDIT_SECRET,     # your client secret
                             user_agent='REDDIT_USER_AGENT',     # your user agent
@@ -30,13 +27,13 @@ reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,  # your client id
                             password=REDDIT_PASSWORD,   # your reddit password
                             check_for_async=False)
 
-## Dicord API connection and information
+# Discord API connection
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 client = discord.Client(intents=intents)
 
-## Scaping Reddit and sending the information to Discord
+# Streams new posts from the subreddit and sends them to the discord channel
 async def monitor_posts():
     channel = client.get_channel(int(DISCORD_CHANNEL_ID))
     if not channel:
@@ -65,8 +62,8 @@ async def on_ready():
     print('Logged in as {0.user}'.format(client))
     await monitor_posts()
 
-# Discord bot commands scrape most recent post
 @client.event
+# Discord commannd !recent_sales - returns the latest post from the subreddit
 async def on_message(message):
     if message.author == client.user:
         return
@@ -75,7 +72,6 @@ async def on_message(message):
         latest_post = None
         for posts in subreddit.new(limit=5):
             if any(exclusion.lower() in posts.title.lower() for exclusion in exclusions):
-                # Skip the submission if it includes any of the exclusions
                 await message.channel.send("Exclusion found")
                 await message.delete()
                 continue
@@ -85,6 +81,7 @@ async def on_message(message):
             await message.channel.send(posts.title)
             await message.channel.send(posts.url)
         await message.delete()
+    # Discord commannd !top_5 - returns the top 5 posts from the subreddit
     elif message.content.startswith('!top_5'):
         subreddit = reddit_read_only.subreddit("bapcsalescanada")
         top_posts = subreddit.hot(limit=5)
@@ -92,11 +89,13 @@ async def on_message(message):
             if any(exclusion.lower() in post.title.lower() for exclusion in exclusions):
                 await message.channel.send("Exclusion found")
                 await message.delete()
-                # Skip the submission if it includes any of the exclusions
                 continue
             await message.channel.send(post.title)
             await message.channel.send(post.url)
         await message.delete()
-
+    # Discord commannd !help - returns the list of commands
+    elif message.content.startswith('!help'):
+        await message.channel.send("Commands: !recent_sales, !top_5")
+        await message.delete()
 
 client.run(DISCORD_TOKEN)
