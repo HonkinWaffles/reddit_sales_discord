@@ -72,7 +72,6 @@ async def on_message(message):
         latest_post = None
         for posts in subreddit.new(limit=5):
             if any(exclusion.lower() in posts.title.lower() for exclusion in exclusions):
-                await message.channel.send("Exclusion found")
                 await message.delete()
                 continue
             latest_post = posts
