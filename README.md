@@ -18,13 +18,13 @@ git clone https://github.com/HonkinWaffles/reddit-discord-bot.git
 cd reddit-discord-bot
 ```
 
-1. Install the dependencies:
+2. Install the dependencies:
 
 ```
 pip install -r requirements.txt
 ```
 
-1. Create a `.env` file in the project directory with the following contents:
+3. Create a `.env` file in the project directory with the following contents:
 
 ```
 DISCORD_TOKEN=<your-discord-bot-token>
@@ -35,7 +35,7 @@ REDDIT_USERNAME=<your-reddit-username>
 REDDIT_PASSWORD=<your-reddit-password>
 ```
 
-1. Edit the `exclusions.txt` file to exclude any posts you don't want pushed to Discord
+4. Edit the `exclusions.txt` file to exclude any posts you don't want pushed to Discord
 
 Replace the placeholders with your actual Discord bot token, Reddit client ID, client secret, user agent, username, and password. The REDDIT_USER_AGENT field should contain a unique name that describes your bot.
 
