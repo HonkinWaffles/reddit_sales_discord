@@ -1,4 +1,4 @@
-discord
-praw
-pandas
-dotenv
+asyncpraw==8.6.0
+discord.py==1.7.3
+python-dotenv==0.19.1
+praw==7.4.0
