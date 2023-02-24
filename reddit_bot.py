@@ -23,9 +23,9 @@ REDDIT_PASSWORD=os.getenv('REDDIT_PASSWORD')
 exclusions = ['Case' , 'Controllers' , 'Keyboard' , 'Laptop' , 'Chargers' , 'Audio' , 'Headphones' , 'Headsets' , 'Earphones' , 'TV', 'buildapcsalescanada']
 
 ## Reddit API connection and scraping
-reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,		 # your client id
-							client_secret=REDDIT_SECRET,	 # your client secret
-							user_agent='REDDIT_USER_AGENT',	 # your user agent
+reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,  # your client id
+                            client_secret=REDDIT_SECRET,     # your client secret
+                            user_agent='REDDIT_USER_AGENT',     # your user agent
                             username=REDDIT_USERNAME,     # your reddit username
                             password=REDDIT_PASSWORD,   # your reddit password
                             check_for_async=False)
