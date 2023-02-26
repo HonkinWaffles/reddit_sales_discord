@@ -30,6 +30,7 @@ reddit_read_only = praw.Reddit(client_id=REDDIT_CLIENT_ID,  # your client id
                             user_agent='REDDIT_USER_AGENT',     # your user agent
                             username=REDDIT_USERNAME,     # your reddit username
                             password=REDDIT_PASSWORD,   # your reddit password
+                            timeout=60,  # increase timeout to 10 seconds
                             check_for_async=False)
 
 # Discord API connection
